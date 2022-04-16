@@ -20,7 +20,7 @@ class PostPagesTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        small_gif = (      
+        small_gif = (
             b'\x47\x49\x46\x38\x39\x61\x02\x00'
             b'\x01\x00\x80\x00\x00\x00\x00\x00'
             b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
@@ -111,11 +111,12 @@ class PostPagesTests(TestCase):
         """Шаблон profile сформирован с правильным контекстом."""
         response = (
             self.authorized_client.get(reverse('posts:profile',
-            kwargs={'username': f'{self.user.username}'}))
+                kwargs={'username': f'{self.user.username}'}))
         )
-        response1 = (self.authorized_client.
-                    get(reverse('posts:profile',
-                        kwargs={'username': PostPagesTests.user.username})))
+        response1 = (
+            self.authorized_client.get(reverse('posts:profile',
+                kwargs={'username': PostPagesTests.user.username}))
+        )
         first_object = response1.context['page_obj'][0]
         post_image_0 = first_object.image
         self.assertEqual(response.context.get('user').username, 'HasNoName')
@@ -128,7 +129,7 @@ class PostPagesTests(TestCase):
                         kwargs={'post_id': f'{self.post.id}'})))
         response1 = (
             self.authorized_client.get(reverse('posts:profile',
-            kwargs={'username': PostPagesTests.user.username}))
+                kwargs={'username': PostPagesTests.user.username}))
         )
         first_object = response1.context['page_obj'][0]
         post_image_0 = first_object.image
