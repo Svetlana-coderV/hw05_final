@@ -113,8 +113,7 @@ class PostPagesTests(TestCase):
                     kwargs={'username': f'{self.user.username}'}))
                     )
         response1 = (self.authorized_client.get(reverse('posts:profile',
-                     kwargs={'username': PostPagesTests.user.username}))
-                    )
+                     kwargs={'username': PostPagesTests.user.username})))
         first_object = response1.context['page_obj'][0]
         post_image_0 = first_object.image
         self.assertEqual(response.context.get('user').username, 'HasNoName')
@@ -126,8 +125,7 @@ class PostPagesTests(TestCase):
                     get(reverse('posts:post_detail',
                         kwargs={'post_id': f'{self.post.id}'})))
         response1 = (self.authorized_client.get(reverse('posts:profile',
-                     kwargs={'username': PostPagesTests.user.username}))
-        )
+                     kwargs={'username': PostPagesTests.user.username})))
         first_object = response1.context['page_obj'][0]
         post_image_0 = first_object.image
         self.assertEqual(response.context.get('post').author.username, 'auth')
