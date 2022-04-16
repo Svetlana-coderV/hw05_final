@@ -107,10 +107,10 @@ class PostURLTests(TestCase):
         на других пользователей и удалять их из подписок.
         """
         urls = [
-                reverse('posts:profile_follow',
-                        kwargs={'username': self.other_user}),
-                reverse('posts:profile_unfollow',
-                        kwargs={'username': self.other_user}),
+            reverse('posts:profile_follow',
+                kwargs={'username': self.other_user}),
+            reverse('posts:profile_unfollow',
+                kwargs={'username': self.other_user}),
         ]
         for url in urls:
             response = self.authorized_client.post(url)
