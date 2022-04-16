@@ -71,14 +71,17 @@ class PostURLTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_comment_page(self):
-        """Проверка доступности комментирования авторизованному пользователю."""
-        url = reverse('posts:post_detail', kwargs={
-                'post_id': f'{self.post.id}'})
+        """
+        Проверка доступности комментирования авторизованному пользователю.
+        """
+        url = reverse(
+            'posts:post_detail', kwargs={'post_id': f'{self.post.id}'}
+        )
         response = self.authorized_client.get(url)
         expected = forms.fields.CharField
         form_field = response.context.get('form').fields.get('text')
         self.assertIsInstance(form_field, expected)
-        
+
     def test_url_uses_correct_template(self):
         """Проверка используемых шаблонов."""
         template_url_names = {
@@ -105,8 +108,7 @@ class PostURLTests(TestCase):
         """
         urls = [
             reverse(
-            'posts:profile_follow',
-            kwargs={'username': self.other_user}
+            'posts:profile_follow', kwargs={'username': self.other_user}
             ),
             reverse(
             'posts:profile_unfollow',

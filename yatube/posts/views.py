@@ -46,7 +46,9 @@ def profile(request: HttpRequest, username: str) -> HttpResponse:
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     user = request.user
-    following = user.is_authenticated and user.follower.filter(author=author).exists()
+    following = (
+        user.is_authenticated and user.follower.filter(author=author).exists()
+    )
     context = {
         'page_obj': page_obj,
         'author': author,
@@ -54,7 +56,7 @@ def profile(request: HttpRequest, username: str) -> HttpResponse:
         'user': user,
         'following': following,
     }
-    
+
     return render(request, 'posts/profile.html', context)
 
 
@@ -120,6 +122,7 @@ def post_edit(request: HttpRequest, post_id) -> HttpResponse:
     post.save()
     return redirect('posts:post_detail', post_id)
 
+
 @login_required
 def add_comment(request: HttpRequest, post_id) -> HttpResponse:
     """Добавление комментария."""
@@ -131,6 +134,7 @@ def add_comment(request: HttpRequest, post_id) -> HttpResponse:
         comment.post = post
         comment.save()
     return redirect('posts:post_detail', post_id=post_id)
+
 
 @login_required
 def follow_index(request: HttpRequest) -> HttpResponse:
@@ -149,6 +153,7 @@ def follow_index(request: HttpRequest) -> HttpResponse:
     }
     return render(request, 'posts/follow.html', context)
 
+
 @login_required
 def profile_follow(request: HttpRequest, username) -> HttpResponse:
     """Функция страницы подписки на авторов."""
@@ -157,6 +162,7 @@ def profile_follow(request: HttpRequest, username) -> HttpResponse:
     if author != user:
         Follow.objects.get_or_create(user=user, author=author)
     return redirect('posts:profile', username)
+
 
 @login_required
 def profile_unfollow(request: HttpRequest, username) -> HttpResponse:

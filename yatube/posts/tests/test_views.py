@@ -20,13 +20,13 @@ class PostPagesTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        small_gif = (            
-             b'\x47\x49\x46\x38\x39\x61\x02\x00'
-             b'\x01\x00\x80\x00\x00\x00\x00\x00'
-             b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
-             b'\x00\x00\x00\x2C\x00\x00\x00\x00'
-             b'\x02\x00\x01\x00\x00\x02\x02\x0C'
-             b'\x0A\x00\x3B'
+        small_gif = (      
+            b'\x47\x49\x46\x38\x39\x61\x02\x00'
+            b'\x01\x00\x80\x00\x00\x00\x00\x00'
+            b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
+            b'\x00\x00\x00\x2C\x00\x00\x00\x00'
+            b'\x02\x00\x01\x00\x00\x02\x02\x0C'
+            b'\x0A\x00\x3B'
         )
         uploaded = SimpleUploadedFile(
             name='small.gif',
@@ -44,7 +44,7 @@ class PostPagesTests(TestCase):
             author=cls.user,
             text='Тестовый пост',
             group=cls.group,
-            image = uploaded,
+            image=uploaded,
         )
 
     @classmethod
@@ -59,8 +59,6 @@ class PostPagesTests(TestCase):
         self.authorized_client.force_login(self.user)
         self.author_client = Client()
         self.author_client.force_login(PostPagesTests.user)
-        # cache.clear()
-               
 
     def test_pages_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
@@ -111,9 +109,10 @@ class PostPagesTests(TestCase):
 
     def test_profile_show_correct_context(self):
         """Шаблон profile сформирован с правильным контекстом."""
-        response = (self.authorized_client.
-                    get(reverse('posts:profile',
-                        kwargs={'username': f'{self.user.username}'})))
+        response = (
+            self.authorized_client.get(reverse('posts:profile',
+            kwargs={'username': f'{self.user.username}'}))
+        )
         response1 = (self.authorized_client.
                     get(reverse('posts:profile',
                         kwargs={'username': PostPagesTests.user.username})))
@@ -127,9 +126,10 @@ class PostPagesTests(TestCase):
         response = (self.guest_client.
                     get(reverse('posts:post_detail',
                         kwargs={'post_id': f'{self.post.id}'})))
-        response1 = (self.authorized_client.
-                    get(reverse('posts:profile',
-                        kwargs={'username': PostPagesTests.user.username})))
+        response1 = (
+            self.authorized_client.get(reverse('posts:profile',
+            kwargs={'username': PostPagesTests.user.username}))
+        )
         first_object = response1.context['page_obj'][0]
         post_image_0 = first_object.image
         self.assertEqual(response.context.get('post').author.username, 'auth')
@@ -192,8 +192,9 @@ class PostPagesTests(TestCase):
         Проверка, что после успешной отправки
         комментарий появляется на странице поста."""
         comments_count = Comment.objects.count()
-        url = reverse('posts:add_comment', kwargs={
-                'post_id': f'{self.post.id}'})
+        url = reverse(
+            'posts:add_comment', kwargs={'post_id': f'{self.post.id}'}
+        )
         form_data = {
             'text': 'Тестовый коммент',
         }
@@ -228,7 +229,7 @@ class PostPagesTests(TestCase):
         object3 = response.content
         self.assertNotEqual(object1, object3)
 
-        
+
 class PaginatorViewsTest(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -288,7 +289,6 @@ class PaginatorViewsTest(TestCase):
                 response = self.guest_client.get(
                     reverse('posts:index') + '?page=2')
                 self.assertEqual(len(response.context['page_obj']), 1)
-
 
     def test_new_post_in_feed(self):
         """
