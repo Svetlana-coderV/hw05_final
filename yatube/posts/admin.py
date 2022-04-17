@@ -26,10 +26,10 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 class FollowAdmin(admin.ModelAdmin):
-      list_display = ('user', 'author',)
-      list_filter = ('user',)
-      search_fields = ('author',)
-      empty_value_display = '-пусто-'
+    list_display = ('user', 'author',)
+    list_filter = ('user',)
+    search_fields = ('author',)
+    empty_value_display = '-пусто-'
 
 
 admin.site.register(Post, PostAdmin)
