@@ -37,7 +37,7 @@ class PostPagesTests(TestCase):
         cls.other_user = User.objects.create_user(username='other')
         cls.group = Group.objects.create(
             title='Тестовая группа',
-            slug='Тестовый слаг',
+            slug='test_slug',
             description='Тестовое описание',
         )
         cls.post = Post.objects.create(
@@ -102,7 +102,7 @@ class PostPagesTests(TestCase):
         self.assertEqual(response.context.get(
             'group').title, 'Тестовая группа')
         self.assertEqual(response.context.get(
-            'group').slug, 'Тестовый слаг')
+            'group').slug, 'test_slug')
         self.assertEqual(response.context.get(
             'group').description, 'Тестовое описание')
         self.assertEqual(post_image_0, self.post.image)
@@ -234,7 +234,7 @@ class PaginatorViewsTest(TestCase):
         cls.other_user = User.objects.create_user(username='other')
         cls.group = Group.objects.create(
             title='Тестовая группа1',
-            slug='Тестовый слаг1',
+            slug='test_slug1',
             description='Тестовое описание группы1',
         )
         cls.posts = []

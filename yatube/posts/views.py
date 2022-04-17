@@ -13,7 +13,7 @@ from posts.models import Follow, Group, Post, User
 
 def index(request: HttpRequest) -> HttpResponse:
     """Функция-обработчик для главной страницы. """
-    posts: str = Post.objects.all()
+    posts: str = Post.objects.select_related('group').all()
     paginator = Paginator(posts, settings.NUMB)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -158,7 +158,7 @@ def follow_index(request: HttpRequest) -> HttpResponse:
 def profile_follow(request: HttpRequest, username) -> HttpResponse:
     """Функция страницы подписки на авторов."""
     user = request.user
-    author = User.objects.get(username=username)
+    author = get_object_or_404(User, username=username)
     if author != user:
         Follow.objects.get_or_create(user=user, author=author)
     return redirect('posts:profile', username)
@@ -168,7 +168,7 @@ def profile_follow(request: HttpRequest, username) -> HttpResponse:
 def profile_unfollow(request: HttpRequest, username) -> HttpResponse:
     """Функция страницы отписки от авторов."""
     user = request.user
-    author = User.objects.get(username=username)
+    author = get_object_or_404(User, username=username)
     following = user.follower.filter(author=author)
     following.delete()
     return redirect('posts:profile', username)
