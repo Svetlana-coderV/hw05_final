@@ -77,7 +77,6 @@ class Follow(models.Model):
                 fields=['user', 'author'], name='unique_user_author'
             )
         ]
-        # unique_together = ('user', 'author')
 
     def __str__(self):
         return self.user.username
