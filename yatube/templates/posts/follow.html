@@ -8,7 +8,7 @@
     <h1>Мои подписки</h1>
     {% cache 20 index_page %}
         <article>
-        {% include 'posts/includes/switcher.html' %} 
+        {% include 'posts/includes/switcher.html' with follow=True %} 
           {% for post in page_obj %}
             <ul>
               <li>
